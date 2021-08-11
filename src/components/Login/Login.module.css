@@ -1,0 +1,14 @@
+.login{
+    margin-left: 5rem;
+}
+.card{
+    margin-top: 3rem;
+}
+.success{
+    color:green;
+    margin-left: 5rem;
+}
+.failure{
+    color: red;
+    margin-left: 5rem;
+}
