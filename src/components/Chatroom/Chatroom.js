@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {io} from "socket.io-client";
-import { Card, Button, InputGroup, FormControl,ListGroup } from "react-bootstrap";
+import { Card, Button, InputGroup, FormControl} from "react-bootstrap";
 
 const Chatroom = () => {
   const { roomname} = useParams();
   const {id} = useParams();
   const username = localStorage.getItem('username');
   const [message, setmessage] = useState("");
-  const [sendmessage, sendsetmessage] = useState(['']);
   const [oldchat,setchat] = useState([""]);
   const socket = io("http://localhost:4000", {
     query: {
-      token: localStorage.getItem("token"),
+      token:localStorage.getItem("token"),
     },
   })
   useEffect(()=>{
@@ -21,7 +20,7 @@ const Chatroom = () => {
       setchat(msg);
       
     })   
-   
+   // eslint-disable-next-line 
   },[])
    
   
@@ -31,7 +30,7 @@ const Chatroom = () => {
   };
   const senmessage = (event) => {
     event.preventDefault();
-    if (message !== "") sendsetmessage(message);
+    if (message !== "") 
     socket.emit('NEW_MESSAGE',{username,message,id});
     setmessage("");
   };
@@ -40,7 +39,7 @@ const Chatroom = () => {
       <Card.Body>
         <Card.Title>Messanger</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
-          Open Chat Source
+         Open Chat Source
         </Card.Subtitle>
         <Card.Text>
           <Card>
@@ -53,11 +52,11 @@ const Chatroom = () => {
             >
             {roomname}
             </Card.Title>
-            <Card.Body>
+            <Card.Body style={{height:'19rem',overflow:'auto'}}>
          <ul >
          {oldchat.map((item,index) =>(  <li key={index} > <div
              className={`msg-container msg-container-${
-               username === item.user ? 'left' : 'right'
+               username === item.user ? 'right' : 'left'
              }`}
              key={index}
            >
