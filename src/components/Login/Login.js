@@ -13,8 +13,7 @@ export default function Login() {
     })
     const [value,setvalue] = useState({
         loggedin:null,
-        notloggedin:null
-     
+        notloggedin:null,
     })
     const setemail = (event)=>{
         setstate({...state,email:event.target.value});
@@ -53,6 +52,7 @@ export default function Login() {
             <Input label={"Email"} placeholder={"Enter the Email"} type={"email"} onChange={setemail} />
             <Input label={"Password"} placeholder={"Enter the password"} type={"password"} onChange={setpassword} />
             <Button onClick={submit} >Login</Button>
+           <a href="/forgetpassword" > <p style={{marginLeft:'12rem',marginTop:'1rem'}} >forgetpassword?</p></a>
         </Caard>
     )
 }

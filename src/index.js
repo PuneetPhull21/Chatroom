@@ -11,21 +11,33 @@ import Login from './components/Login/Login';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Chatroom from './components/Chatroom/Chatroom';
 import reportWebVitals from "./reportWebVitals";
+import Changepassword from './components/ChangePassword/changepassword';
+import ForgetPassword from "./components/ForgetPassword/forgetPassword"; 
+import NewPassword from './components/ForgetPassword/newpassword';
 
-
+const token = localStorage.getItem('token');
 ReactDOM.render(
- 
   <React.StrictMode>
    <App />
     <Router>
-     <Switch>
-     <Route exact path="/home" component={Home}/>
-     <Route exact path="/login" component={Login}/>
-     <Route exact path="/profile" component={Profile}/>
-     <Route exact path="/register" component={Register}/>
-     <Route exact path="/dashboard" component={Dashboard}/>
-     <Route exact path="/chatroom/:roomname/:id" component={Chatroom}/>
-     </Switch>
+     <Switch> 
+     {!token ? 
+     <>   
+    <Route exact path="/home" component={Home}/>
+    <Route exact path="/login" component={Login}/>
+    <Route exact path="/resetpassword/:userid/:token" component={NewPassword}/>
+    <Route exact path="/forgetpassword" component={ForgetPassword}  />
+    <Route exact path="/register" component={Register}/>
+    </>
+     : 
+     <>
+     <Route exact path="/changepassword" component={Changepassword}/>
+     <Route exact path="/profile" component={Profile}  />
+     <Route exact path="/dashboard" component={Dashboard} />
+     <Route exact path="/chatroom/:roomname/:id" component={Chatroom} />
+     </>
+     }
+    </Switch>
   </Router>
   
   </React.StrictMode>,

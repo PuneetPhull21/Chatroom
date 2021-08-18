@@ -2,13 +2,18 @@ import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import {io} from "socket.io-client";
 import { Card, Button, InputGroup, FormControl} from "react-bootstrap";
+import Style from 'emoji-mart/css/emoji-mart.css';
+import './Chatroom.module.css';
+import {Picker} from 'emoji-mart';
 
 const Chatroom = () => {
+  const [showreaction,setreaction] = useState(false); 
   const { roomname} = useParams();
   const {id} = useParams();
   const username = localStorage.getItem('username');
   const [message, setmessage] = useState("");
   const [oldchat,setchat] = useState([""]);
+  const [selectedemoji,setselectedemoji] = useState();
   const socket = io("http://localhost:4000", {
     query: {
       token:localStorage.getItem("token"),
@@ -23,7 +28,12 @@ const Chatroom = () => {
    // eslint-disable-next-line 
   },[])
    
+  const setemoji = (event)=>{
+    setselectedemoji({...selectedemoji,event});
+    setmessage(event.native);
+    setreaction(!showreaction);
   
+  }
   
   const smessage = (event) => {
     setmessage(event.target.value);
@@ -34,6 +44,9 @@ const Chatroom = () => {
     socket.emit('NEW_MESSAGE',{username,message,id});
     setmessage("");
   };
+  const showemoji = ()=>{
+    setreaction(!showreaction);
+  }
   return (
     <Card style={{ width: "28rem", marginLeft: "32rem", marginTop: "7rem" }}>
       <Card.Body>
@@ -79,9 +92,17 @@ const Chatroom = () => {
                 aria-describedby="basic-addon2"
                 onChange={smessage} 
                 value={message}
-              />
+                
+              /> <span onClick={showemoji} >+</span>
+              <i 
+              className="fa fa-smile-o" 
+              aria-hidden="true" 
+              style={{ fontSize:'10rem', color: '#36b9e0' }} 
+              
+            />
               <Button onClick={senmessage}>Send</Button>
             </InputGroup>
+            {showreaction === true ? <div className={`${Style.reactions}`} > <Picker showPreview={false} showSkinTones={false} onClick={setemoji} /> </div> :''}
           </Card>
         </Card.Text>
       </Card.Body>
